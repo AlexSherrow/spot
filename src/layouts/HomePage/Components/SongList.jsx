@@ -10,7 +10,7 @@ export function SongList() {
   const [songs, setSongs] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {fetch("http://localhost:8080/song/getAll")
+  useEffect(() => {fetch("https://alexsherrowspotify.herokuapp.com/song/getAll")
   .then(res=>res.json())
   .then((result)=>{
     console.log(result);
