@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { SpinnerLoading } from "../../Utils/SpinnerLoading";
 import { StatusBar } from "./Footer/StatusBar";
 import { Sound, getCurrentSongName, start, pause, play, restart } from "./Sound";
@@ -7,38 +7,33 @@ import { Sound, getCurrentSongName, start, pause, play, restart } from "./Sound"
 export function SongList() {
   const [songName, setSongName] = useState([]);
   const [artistName, setArtistName] = useState('');
-  const [songs, setSongs] = useState([]);
+  const [songsList, setSongsList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  //useEffect(() => {fetch("http://localhost:8080/song/getAll")
-  useEffect(() => {fetch("https://alexsherrowspotify.herokuapp.com/song/getAll")
+  useEffect(() => {
+    //fetch("http://localhost:8080/song/getAll")
+    fetch("https://alexsherrowspotify.herokuapp.com/song/getAll")
   .then(res=>res.json())
   .then((result)=>{
-    console.log(result);
+    setIsLoading(true);
     result = JSON.stringify(result);
     result = JSON.parse(result);
-    const loadedSongs = [];
 
     for(const key in result)
     {
-      loadedSongs.push({
-        id: result[key].id,
-        name: result[key].name,
-        artist: result[key].artist,
-        url: result[key].url
-      });
+      songsList.push(
+      <Sound key = {result[key].id}
+      path = {result[key].url}
+      name = {result[key].name}
+      artist = {result[key].artist}
+      setSongName = {setSongName}
+      setArtistName = {setArtistName}/>);
     }
-
-    let songList = [];
-    loadedSongs.forEach((song,index)=>{
-    console.log(song);
-    songList.push(<Sound key = {song.id} path = {song.url} name = {song.name} artist = {song.artist} setSongName = {setSongName} setArtistName = {setArtistName}/>)
-    })
-    setSongs(songList);
+    setSongsList(songsList);
     setIsLoading(false);
   }
 )
-},[]);
+}, [songsList]);
 
   if (isLoading) {
     return (
@@ -47,7 +42,7 @@ export function SongList() {
   }
     return (
     <>
-    {songs}
+    {songsList}
     <div>
     <StatusBar
     songName={songName} 
@@ -60,6 +55,7 @@ export function SongList() {
     </>
     );
 
+    
      function NextButton() {
       return <button onClick={handleNextButtonClick}>Next</button>;
     }
@@ -99,15 +95,15 @@ export function SongList() {
 
     function getNextSong() 
 {
-  for(let i = 0; i < songs.length; i++)
+  for(let i = 0; i < songsList.length; i++)
   {
-    if(songs[i].props.name === getCurrentSongName())
+    if(songsList[i].props.name === getCurrentSongName())
     {
       restart();
-      if(i === songs.length - 1)
-      start(songs[0].props);
+      if(i === songsList.length - 1)
+      start(songsList[0].props);
       else
-      start(songs[i + 1].props);
+      start(songsList[i + 1].props);
       break;
     }
   }
@@ -115,18 +111,18 @@ export function SongList() {
 
 function getPreviousSong() 
 {
-  for(let i = 0; i < songs.length; i++)
+  for(let i = 0; i < songsList.length; i++)
   {
-    if(songs[i].props.name === getCurrentSongName())
+    if(songsList[i].props.name === getCurrentSongName())
     {
       restart();
       if(i === 0)
-      start(songs[songs.length - 1].props);
+      start(songsList[songsList.length - 1].props);
       else
-      start(songs[i - 1].props);
+      start(songsList[i - 1].props);
       break;
     }
   }
 }
 
-};
+}
