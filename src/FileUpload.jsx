@@ -1,9 +1,7 @@
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { useState } from "react";
 import storage from "./firebaseConfig";
 
 function FileUpload(props) {
-    const [progress, setProgress] = useState(0);
     const formHandler = (e) => {
         e.preventDefault();
         const file = e.target[0].files[0];
@@ -18,14 +16,14 @@ function FileUpload(props) {
   
         uploadTask.on("state_changed", (snapshot) => {
           const prog = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
-          setProgress(prog);
+          console.log(prog + '%');
         }, (err) => console.log(err),
         () => {
             getDownloadURL(uploadTask.snapshot.ref)
             .then(url => {
               const song={name, artist, url};
-              fetch("https://alexsherrowspotify.herokuapp.com/song/add",{
-              //fetch("http://localhost:8080/song/add",{
+              //fetch("https://alexsherrowspotify.herokuapp.com/song/add",{
+              fetch("http://localhost:8080/song/addSong",{
                 method:"POST",
                 headers:{"Content-Type":"application/json"},
                 body:JSON.stringify(song)
@@ -33,6 +31,18 @@ function FileUpload(props) {
               console.log("New song added");
               props.setRefresh(false);
             })
+
+            const artistPost = {name: artist};
+            console.log(artist);
+
+            fetch("http://localhost:8080/artist/addArtist",{
+              method:"POST",
+              headers:{"Content-Type":"application/json"},
+              body:JSON.stringify(artistPost)
+          }).then(()=>{
+            console.log("New artist added");
+          })
+
             });
 
         } );
@@ -46,7 +56,6 @@ function FileUpload(props) {
                 <button type="submit">Upload</button>
             </form>
             <hr/>
-            <h3>Uploaded {progress} %</h3>
         </div>
       );
 

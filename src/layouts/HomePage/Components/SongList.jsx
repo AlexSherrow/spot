@@ -1,18 +1,24 @@
 import { initializeApp } from "firebase/app";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { SpinnerLoading } from "../../Utils/SpinnerLoading";
 import { StatusBar } from "./Footer/StatusBar";
 import { Sound, getCurrentSongName, start, pause, play, restart } from "./Sound";
 
 export function SongList() {
-  const [songName, setSongName] = useState([]);
+  const [songName, setSongName] = useState('');
   const [artistName, setArtistName] = useState('');
   const [songsList, setSongsList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    //fetch("http://localhost:8080/song/getAll")
-    fetch("https://alexsherrowspotify.herokuapp.com/song/getAll")
+    fetch("http://localhost:8080/song/getAllSongs",
+    //fetch("https://alexsherrowspotify.herokuapp.com/song/getAllSongs",
+    {
+      method:"GET",
+      headers:{"Content-Type":"application/json"},
+    }
+    )
+    //fetch("https://alexsherrowspotify.herokuapp.com/song/getAll")
   .then(res=>res.json())
   .then((result)=>{
     setIsLoading(true);
@@ -33,6 +39,20 @@ export function SongList() {
     setIsLoading(false);
   }
 )
+
+fetch("http://localhost:8080/artist/getAllArtists",
+//fetch("https://alexsherrowspotify.herokuapp.com/artist/getAllArtists",
+{
+method:"GET",
+headers:{"Content-Type":"application/json"},
+}
+)
+.then(res=>res.json())
+.then((result)=>{
+console.log(result);
+}
+)
+
 }, [songsList]);
 
   if (isLoading) {
