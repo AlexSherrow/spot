@@ -22,8 +22,8 @@ function FileUpload(props) {
             getDownloadURL(uploadTask.snapshot.ref)
             .then(url => {
               const song={name, artist, url};
-              //fetch("https://alexsherrowspotify.herokuapp.com/song/add",{
-              fetch("http://localhost:8080/song/addSong",{
+              fetch("https://alexsherrowspotify.herokuapp.com/song/addSong",{
+              //fetch("http://localhost:8080/song/addSong",{
                 method:"POST",
                 headers:{"Content-Type":"application/json"},
                 body:JSON.stringify(song)
@@ -32,10 +32,11 @@ function FileUpload(props) {
               props.setRefresh(false);
             })
 
+
             const artistPost = {name: artist};
             console.log(artist);
-
-            fetch("http://localhost:8080/artist/addArtist",{
+            fetch("https://alexsherrowspotify.herokuapp.com/artist/addArtist",{
+            //fetch("http://localhost:8080/artist/addArtist",{
               method:"POST",
               headers:{"Content-Type":"application/json"},
               body:JSON.stringify(artistPost)
