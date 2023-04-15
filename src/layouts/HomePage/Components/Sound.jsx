@@ -12,12 +12,13 @@ export function Sound(props) {
     });
 
     return (
+      
       <div
         style={style}
         onClick={handleSongClick}
         onMouseOver={handleMouseEnter}
         onMouseLeave={handleMouseExit}
-      >
+      > 
         <a>{props.name} </a>
         <a>{props.artist}</a>
       </div>

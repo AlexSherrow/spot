@@ -11,8 +11,8 @@ export function SongList() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    //fetch("http://localhost:8080/song/getAllSongs",
-    fetch("https://alexsherrowspotify.herokuapp.com/song/getAllSongs",
+    fetch("http://localhost:8080/song/getAllSongs",
+    //fetch("https://alexsherrowspotify.herokuapp.com/song/getAllSongs",
     {
       method:"GET",
       headers:{"Content-Type":"application/json"},
@@ -39,8 +39,8 @@ export function SongList() {
   }
 )
 
-//fetch("http://localhost:8080/artist/getAllArtists",
-fetch("https://alexsherrowspotify.herokuapp.com/artist/getAllArtists",
+fetch("http://localhost:8080/artist/getAllArtists",
+//fetch("https://alexsherrowspotify.herokuapp.com/artist/getAllArtists",
 {
 method:"GET",
 headers:{"Content-Type":"application/json"},
