@@ -34,6 +34,7 @@ export function SongList(props) {
     setIsLoading(true);
     result = JSON.stringify(result);
     result = JSON.parse(result);
+    console.log(result);
     for(const key in result)
     {
       songsList.push(
