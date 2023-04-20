@@ -4,6 +4,7 @@ export function StatusBar(props)
         <>
             <div>{props.songName}</div>
             <div>{props.artistName}</div>
+            <div>{props.albumName}</div>
         </>
     );
 }

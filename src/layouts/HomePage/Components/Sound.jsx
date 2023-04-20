@@ -1,9 +1,16 @@
 import React, { useState } from "react";
+import './Sound.css';
 
 let currentAudio;
 let currentSongName;
+// let devURL = "http://localhost:8080";
+// let devURL2 = "http://localhost:3000";
 
-export function Sound(props) {
+let devURL = "https://alexsherrowspotify.herokuapp.com"
+let devURL2 = "https://alexsherrowspotify.herokuapp.com"
+
+
+    export function Sound(props) {
     const [background, setBackground] = useState('white');
     let [textColor, setTextColor] = useState('black');
     let [style, setStyle]  = useState({
@@ -11,19 +18,54 @@ export function Sound(props) {
       color: textColor
     });
 
-    return (
-      
+    return (      
       <div
-        style={style}
         onClick={handleSongClick}
+      > 
+  
+        <div class = 'left'
+        style={style}
         onMouseOver={handleMouseEnter}
         onMouseLeave={handleMouseExit}
-      > 
-        <a>{props.name} </a>
-        <a>{props.artist}</a>
+        >{props.name} </div>
+
+        <div class = 'left'
+        style={style}
+        onMouseOver={handleMouseEnter}
+        onMouseLeave={handleMouseExit}
+        >
+        <a href= {devURL2 + '/album/' + props.album}>{props.album}</a>
+        </div>
+
+        <div class = 'left'
+        style={style}
+        onMouseOver={handleMouseEnter}
+        onMouseLeave={handleMouseExit}
+        >
+        <a href= {devURL2 + '/artist/' + props.artist}>{props.artist}</a>        
+        </div>
+
+        <div class = 'left'>
+        <button
+        onClick={handleAddClick}>Hi</button>
+        </div>
+        
       </div>
     );
 
+    function handleAddClick()
+    {
+      const artistPost = {name: 'hi'};
+
+      fetch(devURL + "/artist/addArtist",{
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify(artistPost)
+    }).then(()=>{
+      console.log("New artist added");
+    })
+    }
+    
     function handleSongClick() 
     {
       start(props);
@@ -31,20 +73,21 @@ export function Sound(props) {
     }
   
     function handleMouseEnter() {
-      setStyle({background: 'green'})
+      setStyle({background: 'green', color:'white'})
     }
   
     function handleMouseExit() {
-      setStyle({background: 'white'})    }
+      setStyle({background: 'white'})    
+    }
   }
-
-
 
 export async function start(props) {
   let audio = new Audio(props.path);
   currentSongName = props.name;
   props.setSongName(props.name);
   props.setArtistName(props.artist);
+  props.setAlbumName(props.album);
+
   try {
     restart();
     await audio.play();

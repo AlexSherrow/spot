@@ -1,6 +1,9 @@
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import storage from "./firebaseConfig";
 
+//let devURL = "http://localhost:8080";
+let devURL = "https://alexsherrowspotify.herokuapp.com"
+
 function FileUpload(props) {
     const formHandler = (e) => {
         e.preventDefault();
@@ -21,9 +24,8 @@ function FileUpload(props) {
         () => {
             getDownloadURL(uploadTask.snapshot.ref)
             .then(url => {
-              const song={name, artist, url};
-              //fetch("https://alexsherrowspotify.herokuapp.com/song/addSong",{
-              fetch("http://localhost:8080/song/addSong",{
+              const song={name, artist, url, album};
+              fetch(devURL + "/song/addSong",{
                 method:"POST",
                 headers:{"Content-Type":"application/json"},
                 body:JSON.stringify(song)
@@ -32,11 +34,8 @@ function FileUpload(props) {
               props.setRefresh(false);
             })
 
-
             const artistPost = {name: artist};
-            console.log(artist);
-            //fetch("https://alexsherrowspotify.herokuapp.com/artist/addArtist",{
-            fetch("http://localhost:8080/artist/addArtist",{
+            fetch(devURL + "/artist/addArtist",{
               method:"POST",
               headers:{"Content-Type":"application/json"},
               body:JSON.stringify(artistPost)
@@ -45,9 +44,7 @@ function FileUpload(props) {
           })
 
           const albumPost = {name: album};
-          console.log(album);
-          //fetch("https://alexsherrowspotify.herokuapp.com/album/addAlbum",{
-          fetch("http://localhost:8080/album/addAlbum",{
+          fetch(devURL + "/album/addAlbum",{
             method:"POST",
             headers:{"Content-Type":"application/json"},
             body:JSON.stringify(albumPost)

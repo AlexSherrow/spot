@@ -4,15 +4,26 @@ import { SpinnerLoading } from "../../Utils/SpinnerLoading";
 import { StatusBar } from "./Footer/StatusBar";
 import { Sound, getCurrentSongName, start, pause, play, restart } from "./Sound";
 
-export function SongList() {
+export function SongList(props) {
   const [songName, setSongName] = useState('');
   const [artistName, setArtistName] = useState('');
+  const [albumName, setAlbumName] = useState('');
   const [songsList, setSongsList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-
   useEffect(() => {
-    fetch("http://localhost:8080/song/getAllSongs",
-    //fetch("https://alexsherrowspotify.herokuapp.com/song/getAllSongs",
+
+    //let devURL = "http://localhost:8080";
+    let devURL = "https://alexsherrowspotify.herokuapp.com"
+    let mainPath = '';
+
+    if(props.path.includes('/album/'))
+    mainPath = "/song/getAllSongsByAlbum?albumName=" + props.path.replace("/album/", "");
+    else if(props.path.includes('/artist/'))
+    mainPath = "/song/getAllSongsByArtist?artistName=" + props.path.replace("/artist/", "");
+    else
+    mainPath = "/song/getAllSongs";
+
+    fetch(devURL + mainPath,
     {
       method:"GET",
       headers:{"Content-Type":"application/json"},
@@ -23,7 +34,6 @@ export function SongList() {
     setIsLoading(true);
     result = JSON.stringify(result);
     result = JSON.parse(result);
-
     for(const key in result)
     {
       songsList.push(
@@ -31,27 +41,15 @@ export function SongList() {
       path = {result[key].url}
       name = {result[key].name}
       artist = {result[key].artist}
+      album = {result[key].album}
       setSongName = {setSongName}
-      setArtistName = {setArtistName}/>);
+      setArtistName = {setArtistName}
+      setAlbumName = {setAlbumName}/>);
     }
     setSongsList(songsList);
     setIsLoading(false);
   }
 )
-
-fetch("http://localhost:8080/artist/getAllArtists",
-//fetch("https://alexsherrowspotify.herokuapp.com/artist/getAllArtists",
-{
-method:"GET",
-headers:{"Content-Type":"application/json"},
-}
-)
-.then(res=>res.json())
-.then((result)=>{
-console.log(result);
-}
-)
-
 }, [songsList]);
 
   if (isLoading) {
@@ -65,7 +63,9 @@ console.log(result);
     <div>
     <StatusBar
     songName={songName} 
-    artistName={artistName}/>
+    artistName={artistName}
+    albumName = {albumName}
+    />
     <PreviousButton setSongName = {setSongName} setArtistName = {setArtistName}/>
     <PauseButton/>
     <PlayButton/>
