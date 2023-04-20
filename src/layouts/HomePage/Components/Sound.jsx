@@ -6,8 +6,8 @@ let currentSongName;
 // let devURL = "http://localhost:8080";
 // let devURL2 = "http://localhost:3000";
 
-let devURL = "https://alexsherrowspotify.herokuapp.com"
-let devURL2 = "https://alexsherrowspotify.herokuapp.com"
+let devURL = "http://www.soundslounge.com/"
+let devURL2 = "http://www.soundslounge.com/"
 
 
     export function Sound(props) {
