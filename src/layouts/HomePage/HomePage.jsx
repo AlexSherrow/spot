@@ -1,9 +1,10 @@
+
+var constants = require('../../constants')
+
 export const HomePage = () => {
-  let devURL = "http://www.soundslounge.com";
-  //let devURL = "http://localhost:3000";
   return (
     <>
-    <a href= {devURL + '/Main'}>Main List</a>
+    <a href= {constants.hostURL + '/Main'}>Main List</a>
     </>
   );
 };

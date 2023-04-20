@@ -4,6 +4,8 @@ import { SpinnerLoading } from "../../Utils/SpinnerLoading";
 import { StatusBar } from "./Footer/StatusBar";
 import { Sound, getCurrentSongName, start, pause, play, restart } from "./Sound";
 
+var constants = require('../../../constants')
+
 export function SongList(props) {
   const [songName, setSongName] = useState('');
   const [artistName, setArtistName] = useState('');
@@ -11,9 +13,6 @@ export function SongList(props) {
   const [songsList, setSongsList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
-
-    //let devURL = "http://localhost:8080";
-    let devURL = "https://alexsherrowspotify.herokuapp.com"
     let mainPath = '';
 
     if(props.path.includes('/album/'))
@@ -23,7 +22,7 @@ export function SongList(props) {
     else
     mainPath = "/song/getAllSongs";
 
-    fetch(devURL + mainPath,
+    fetch(constants.postURL + mainPath,
     {
       method:"GET",
       headers:{"Content-Type":"application/json"},
@@ -34,7 +33,6 @@ export function SongList(props) {
     setIsLoading(true);
     result = JSON.stringify(result);
     result = JSON.parse(result);
-    console.log(result);
     for(const key in result)
     {
       songsList.push(

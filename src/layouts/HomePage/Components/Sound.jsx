@@ -1,14 +1,10 @@
 import React, { useState } from "react";
 import './Sound.css';
 
+var constants = require('../../../constants');
+
 let currentAudio;
 let currentSongName;
-// let devURL = "http://localhost:8080";
-// let devURL2 = "http://localhost:3000";
-
-let devURL = "http://www.soundslounge.com"
-let devURL2 = "http://www.soundslounge.com"
-
 
     export function Sound(props) {
     const [background, setBackground] = useState('white');
@@ -34,7 +30,7 @@ let devURL2 = "http://www.soundslounge.com"
         onMouseOver={handleMouseEnter}
         onMouseLeave={handleMouseExit}
         >
-        <a href= {devURL2 + '/album/' + props.album}>{props.album}</a>
+        <a href= {constants.hostURL + '/album/' + props.album}>{props.album}</a>
         </div>
 
         <div class = 'left'
@@ -42,7 +38,7 @@ let devURL2 = "http://www.soundslounge.com"
         onMouseOver={handleMouseEnter}
         onMouseLeave={handleMouseExit}
         >
-        <a href= {devURL2 + '/artist/' + props.artist}>{props.artist}</a>        
+        <a href= {constants.hostURL + '/artist/' + props.artist}>{props.artist}</a>        
         </div>
 
         <div class = 'left'>
@@ -57,12 +53,11 @@ let devURL2 = "http://www.soundslounge.com"
     {
       const artistPost = {name: 'hi'};
 
-      fetch(devURL + "/artist/addArtist",{
+      fetch(constants.postURL + "/artist/addArtist",{
         method:"POST",
         headers:{"Content-Type":"application/json"},
         body:JSON.stringify(artistPost)
     }).then(()=>{
-      console.log("New artist added");
     })
     }
     

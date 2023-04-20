@@ -1,9 +1,9 @@
 import { initializeApp } from "firebase/app";
 import { getStorage } from "firebase/storage";
- 
+
 // Initialize Firebase
 const app = initializeApp ({
-         apiKey: "AIzaSyBcoJJaz2uBCOPF4-SvDOro9rQFsbxD3fc",
+    apiKey: "AIzaSyBcoJJaz2uBCOPF4-SvDOro9rQFsbxD3fc",
     authDomain: "spotify-375315.firebaseapp.com",
     projectId: "spotify-375315",
     storageBucket: "spotify-375315.appspot.com",

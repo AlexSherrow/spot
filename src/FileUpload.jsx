@@ -1,8 +1,7 @@
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import storage from "./firebaseConfig";
 
-//let devURL = "http://localhost:8080";
-let devURL = "https://alexsherrowspotify.herokuapp.com"
+var constants = require('./constants')
 
 function FileUpload(props) {
     const formHandler = (e) => {
@@ -25,7 +24,7 @@ function FileUpload(props) {
             getDownloadURL(uploadTask.snapshot.ref)
             .then(url => {
               const song={name, artist, url, album};
-              fetch(devURL + "/song/addSong",{
+              fetch(constants.postURL + "/song/addSong",{
                 method:"POST",
                 headers:{"Content-Type":"application/json"},
                 body:JSON.stringify(song)
@@ -35,7 +34,7 @@ function FileUpload(props) {
             })
 
             const artistPost = {name: artist};
-            fetch(devURL + "/artist/addArtist",{
+            fetch(constants.postURL + "/artist/addArtist",{
               method:"POST",
               headers:{"Content-Type":"application/json"},
               body:JSON.stringify(artistPost)
@@ -44,7 +43,7 @@ function FileUpload(props) {
           })
 
           const albumPost = {name: album};
-          fetch(devURL + "/album/addAlbum",{
+          fetch(constants.postURL + "/album/addAlbum",{
             method:"POST",
             headers:{"Content-Type":"application/json"},
             body:JSON.stringify(albumPost)
