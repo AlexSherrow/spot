@@ -1,5 +1,5 @@
 export const HomePage = () => {
-  let devURL = "https://alexsherrowspotify.herokuapp.com";
+  let devURL = "http://www.soundslounge.com";
   //let devURL = "http://localhost:3000";
   return (
     <>
